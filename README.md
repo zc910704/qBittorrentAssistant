@@ -1,0 +1,2 @@
+# qBittorrentAssistant
+qBittorrent助手
