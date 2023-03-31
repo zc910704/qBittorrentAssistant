@@ -1,0 +1,171 @@
+﻿<Window x:Class="qBittorrentAssistant.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:qBittorrentAssistant"
+        xmlns:localModel="clr-namespace:qBittorrentAssistant.Models"
+        mc:Ignorable="d"
+        x:Name="window"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        Title="MainWindow" Height="450" Width="800">
+    <!--设计时数据源 提供语法提示与设计视图-->
+    <d:Window.DataContext>
+        <local:MainViewModel></local:MainViewModel>
+    </d:Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--地址栏-->
+        <Border
+            BorderBrush="Gray"
+            BorderThickness="2"
+            Background="Gray"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <Grid
+            x:Name="addressBar"            
+            Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    Margin="2">                    
+                </TextBox>
+                <Button
+                    Grid.Column="1"
+                    Margin="2">
+                    转到
+                </Button>
+            </Grid>
+        </Border>
+        <!--目录树-->
+        <Border
+            Grid.Column="0"
+            Grid.Row="1">
+            <!--<TreeView x:Name="foldersItem"
+                ItemsSource="{Binding DirectoryTreeItems}"
+                Width="Auto" Background="#FFFFFFFF"
+                BorderBrush="#FFFFFFFF"
+                Foreground="#FFFFFFFF">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type localModel:DirectoryTreeItem}" ItemsSource="{Binding Children}">
+                        <TreeViewItem
+                            DataContext="{Binding}"
+                            Header="{Binding FullPath}"
+                            ItemsSource="{Binding Children}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Expanded">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.ShowSubDirectoryCommand, ElementName=window}"
+                                                           CommandParameter="{Binding Path=FullPath, 
+                                                                                      RelativeSource={RelativeSource Mode=Self}}">
+                                        
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            --><!--<TreeViewItem.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">                                       
+                                        <ContentPresenter ContentSource="Header"></ContentPresenter>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </TreeViewItem.HeaderTemplate>-->
+                            <!--<ContentPresenter Content="{Binding FullPath}">
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Margin" Value="5,0,0,0"/>
+                                    </Style>
+                                </ContentPresenter.Resources>
+                                <ContentPresenter.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding Icon}" Width="16" Height="16" Margin="0,0,5,0"/>
+                                            <TextBlock Text="{TemplateBinding Content}" FontWeight="Bold"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ContentPresenter.ContentTemplate>
+                            </ContentPresenter>--><!--
+                        </TreeViewItem>
+                        
+                        --><!--<HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TreeViewItem ItemsSource="{Binding Children}" HeaderTemplate="{StaticResource header}">
+                                    --><!--<i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Expanded">
+                                            <i:InvokeCommandAction Command="{Binding ShowSubDirectoryCommand}"
+                                                                   CommandParameter="{Binding Path=FullPath, RelativeSource={RelativeSource Mode=Self}}"></i:InvokeCommandAction>                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>--><!--
+                                </TreeViewItem>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>--><!--
+                    </HierarchicalDataTemplate>
+
+                    <DataTemplate x:Key="header">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding .}" Margin="5,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
+            </TreeView>-->
+            <TreeView ItemsSource="{Binding DirectoryTreeItems}">
+                <TreeView.ItemContainerStyle>
+                    <!-- This Style binds a TreeViewItem to a TreeViewItemViewModel.  -->
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />-->
+                        <Setter Property="FontWeight" Value="Normal" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="FontWeight" Value="Bold" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate 
+                        DataType="{x:Type localModel:DirectoryTreeItem}" 
+                        ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+        </Border>
+        <!--当前文件夹-->
+        <Border
+            Grid.Column="1"
+            Grid.Row="1">
+            <ListView>
+                <GridView></GridView>
+            </ListView>
+        </Border>
+        <!--种子工具栏-->
+        <Border
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Grid.Row="2">
+            
+        </Border>
+        <!--种子信息-->
+        <Border
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Grid.Row="3">
+            <DataGrid></DataGrid>
+        </Border>
+    </Grid>
+</Window>
