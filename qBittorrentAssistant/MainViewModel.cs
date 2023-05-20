@@ -12,6 +12,8 @@ using qBittorrentAssistant.Models;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ByteSizeLib;
+using NLog.LayoutRenderers;
+using System.Security.Policy;
 
 namespace qBittorrentAssistant
 {
@@ -19,6 +21,9 @@ namespace qBittorrentAssistant
     {
         [ObservableProperty]
         private BindingList<DirectoryTreeItem> _DirectoryTreeItems = new BindingList<DirectoryTreeItem>();
+        
+        [ObservableProperty]
+        private string _AddressColumnPath;
 
         public MainViewModel()
         {
@@ -37,10 +42,60 @@ namespace qBittorrentAssistant
             }
         }
 
+
         [RelayCommand]
-        private void ShowSubDirectory(string path)
-        { 
-        
+        public void NavigateToPath()
+        {
+            try
+            {
+                DirectoryTreeItem currentDir = null;
+
+                if (string.IsNullOrEmpty(AddressColumnPath))
+                    return;
+                var allDirectoryInPath = AddressColumnPath
+                    .Replace("\"","")
+                    .Replace("\'", "")
+                    .Split(new char[] { '\\', '/' });
+
+                int searchIndex = 0;
+                if (allDirectoryInPath.Length > 0)
+                {
+                    // d.Name : C:\ 
+                    // allDirectoryInPath[searchIndex] : C:
+                    if (DirectoryTreeItems.Any(d => d.Name.Contains(allDirectoryInPath[searchIndex])))
+                    {
+                        currentDir = DirectoryTreeItems.First(d => d.Name.Contains(allDirectoryInPath[searchIndex]));
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    searchIndex++;
+                    while (currentDir.IsDirectory)
+                    {
+                        if (currentDir.IsDirectory)
+                        {
+                            currentDir.IsExpanded = true;
+                            currentDir.IsSelected = true;
+                            if (currentDir.Children.Any(d => d.Name == allDirectoryInPath[searchIndex]))
+                            {
+                                currentDir = currentDir.Children.First(d => d.Name == allDirectoryInPath[searchIndex]);
+                                currentDir.IsSelected = true;
+                                searchIndex++;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("MainViewModel::NavigateToPath |", ex);
+            }
+            
         }
     }
 }

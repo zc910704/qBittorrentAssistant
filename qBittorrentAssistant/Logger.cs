@@ -10,5 +10,7 @@ namespace qBittorrentAssistant
     public static class Logger
     {
         public static void Error(string msg, Exception? exception) { }
+
+        public static void Info(string msg) { }
     }
 }

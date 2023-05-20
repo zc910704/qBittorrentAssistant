@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace qBittorrentAssistant.Models
 {
@@ -16,7 +17,27 @@ namespace qBittorrentAssistant.Models
 
         public string Name { get; set; }
 
+        private bool? _IsDirectory = null;
+        public bool IsDirectory 
+        {
+            get
+            {
+                if (_IsDirectory == null)
+                {
+                    FileAttributes attr = File.GetAttributes(FullPath);
+                    _IsDirectory = attr.HasFlag(FileAttributes.Directory);
+                }
+                return _IsDirectory.Value;
+            }
+        }
+        /// <summary>
+        /// SubDirectorys In Directory
+        /// </summary>
         public BindingList<DirectoryTreeItem> Children { get; set; } = new BindingList<DirectoryTreeItem>();
+        /// <summary>
+        /// Content Files In Directory
+        /// </summary>
+        public BindingList<DirectoryTreeItem> Items { get; set; } = new BindingList<DirectoryTreeItem>();
 
         public ByteSize Size { get; set; }
 
@@ -25,6 +46,9 @@ namespace qBittorrentAssistant.Models
             FullPath = fullPath;
             Name = name;
         }
+
+        [ObservableProperty]
+        private bool _IsSelected;
 
         private bool _IsGetDirectoryItems = false;
 
@@ -35,14 +59,22 @@ namespace qBittorrentAssistant.Models
             set
             {
                 // first expand
-                if (!_IsExpand && value && !_IsGetDirectoryItems)
+                if (!_IsExpand && value && !_IsGetDirectoryItems && IsDirectory)
                 {
                     foreach (var item in Directory.GetFileSystemEntries(FullPath))
                     {
                         if (item.Count() > FullPath.Count())
                         {
                             var name = item.Split(new char[] { '\\', '/' }).Last();
-                            Children.Add(new DirectoryTreeItem(item, name));
+                            var itemInFullPath = new DirectoryTreeItem(item, name);
+                            if (itemInFullPath.IsDirectory)
+                            {
+                                Children.Add(itemInFullPath);
+                            }
+                            else
+                            {
+                                Items.Add(itemInFullPath);
+                            }
                         }
                         else
                         {
@@ -57,10 +89,11 @@ namespace qBittorrentAssistant.Models
 
         public static IEnumerable<DirectoryTreeItem> GetRootDirectoryItems()
         {
-            foreach (string path in Directory.GetLogicalDrives())
+            foreach (string root in Directory.GetLogicalDrives())
             {
-                yield return new DirectoryTreeItem(path, path);
+                yield return new DirectoryTreeItem(root, root);
             }
         }
+
     }
 }

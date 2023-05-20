@@ -16,7 +16,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -32,7 +33,7 @@
             Background="Gray"
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="2">
+            Grid.ColumnSpan="3">
             <Grid
             x:Name="addressBar"            
             Margin="0">
@@ -42,11 +43,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBox
                     Grid.Column="0"
-                    Margin="2">                    
+                    Margin="2"
+                    Text="{Binding AddressColumnPath}">                    
                 </TextBox>
                 <Button
                     Grid.Column="1"
-                    Margin="2">
+                    Margin="2" Command="{Binding NavigateToPathCommand}">
                     转到
                 </Button>
             </Grid>
@@ -124,7 +126,7 @@
                     <!-- This Style binds a TreeViewItem to a TreeViewItemViewModel.  -->
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                        <!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />-->
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         <Setter Property="FontWeight" Value="Normal" />
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -139,15 +141,24 @@
                         DataType="{x:Type localModel:DirectoryTreeItem}" 
                         ItemsSource="{Binding Children}">
                         <StackPanel Orientation="Horizontal">
+                            <Image Source="Asset/Images/Directorys.png" Width="16" Height="16" Margin="0,0,5,0"/>
                             <TextBlock Text="{Binding Name}" />
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
             </TreeView>
         </Border>
+        <GridSplitter
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalAlignment="Stretch" 
+            HorizontalAlignment="Center" 
+            Width="3" 
+            Background="Gray" 
+            ShowsPreview="True"/>
         <!--当前文件夹-->
         <Border
-            Grid.Column="1"
+            Grid.Column="2"
             Grid.Row="1">
             <ListView>
                 <GridView></GridView>
@@ -156,14 +167,14 @@
         <!--种子工具栏-->
         <Border
             Grid.Column="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Grid.Row="2">
             
         </Border>
         <!--种子信息-->
         <Border
             Grid.Column="0"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Grid.Row="3">
             <DataGrid></DataGrid>
         </Border>
