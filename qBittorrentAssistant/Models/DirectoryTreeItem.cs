@@ -30,14 +30,11 @@ namespace qBittorrentAssistant.Models
                 return _IsDirectory.Value;
             }
         }
-        /// <summary>
-        /// SubDirectorys In Directory
-        /// </summary>
-        public BindingList<DirectoryTreeItem> Children { get; set; } = new BindingList<DirectoryTreeItem>();
-        /// <summary>
-        /// Content Files In Directory
-        /// </summary>
-        public BindingList<DirectoryTreeItem> Items { get; set; } = new BindingList<DirectoryTreeItem>();
+        public BindingList<DirectoryTreeItem> Childrens { get; set; } = new BindingList<DirectoryTreeItem>();
+
+        public BindingList<DirectoryTreeItem> FilesInCurrent { get; set; } = new BindingList<DirectoryTreeItem>();
+
+        public BindingList<DirectoryTreeItem> DirectoryInCurrent { get; set; } = new BindingList<DirectoryTreeItem>();
 
         public ByteSize Size { get; set; }
 
@@ -50,8 +47,6 @@ namespace qBittorrentAssistant.Models
         [ObservableProperty]
         private bool _IsSelected;
 
-        private bool _IsGetDirectoryItems = false;
-
         private bool _IsExpand = false;
         public bool IsExpanded
         {
@@ -59,7 +54,7 @@ namespace qBittorrentAssistant.Models
             set
             {
                 // first expand
-                if (!_IsExpand && value && !_IsGetDirectoryItems && IsDirectory)
+                if (!_IsExpand && value && IsDirectory)
                 {
                     foreach (var item in Directory.GetFileSystemEntries(FullPath))
                     {
@@ -69,12 +64,13 @@ namespace qBittorrentAssistant.Models
                             var itemInFullPath = new DirectoryTreeItem(item, name);
                             if (itemInFullPath.IsDirectory)
                             {
-                                Children.Add(itemInFullPath);
+                                DirectoryInCurrent.Add(itemInFullPath);
                             }
                             else
                             {
-                                Items.Add(itemInFullPath);
+                                FilesInCurrent.Add(itemInFullPath);
                             }
+                            Childrens.Add(itemInFullPath);
                         }
                         else
                         {
@@ -83,7 +79,6 @@ namespace qBittorrentAssistant.Models
                     }
                 }
                 _IsExpand = value;
-                _IsGetDirectoryItems = true;
             }
         }
 

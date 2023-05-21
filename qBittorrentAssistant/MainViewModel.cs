@@ -77,9 +77,9 @@ namespace qBittorrentAssistant
                         {
                             currentDir.IsExpanded = true;
                             currentDir.IsSelected = true;
-                            if (currentDir.Children.Any(d => d.Name == allDirectoryInPath[searchIndex]))
+                            if (currentDir.Childrens.Any(d => d.Name == allDirectoryInPath[searchIndex]))
                             {
-                                currentDir = currentDir.Children.First(d => d.Name == allDirectoryInPath[searchIndex]);
+                                currentDir = currentDir.Childrens.First(d => d.Name == allDirectoryInPath[searchIndex]);
                                 currentDir.IsSelected = true;
                                 searchIndex++;
                             }
