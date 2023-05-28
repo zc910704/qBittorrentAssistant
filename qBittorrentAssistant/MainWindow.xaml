@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:qBittorrentAssistant"
         xmlns:localModel="clr-namespace:qBittorrentAssistant.Models"
+        xmlns:v="clr-namespace:qBittorrentAssistant.Views"
         mc:Ignorable="d"
         x:Name="window"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -65,8 +66,13 @@
                         </Grid.ColumnDefinitions>
                         <!--目录树-->
                         <Border
-                            Grid.Column="0">                           
-                            <TreeView ItemsSource="{Binding DirectoryTreeItems}">
+                            Grid.Column="0">
+                            <!--v:TreeViewAttach.TreeViewSelectedItem="{Binding SelectedDirectoryTreeItem, Mode=TwoWay}"-->
+                            <TreeView 
+                                v:MonitorTreeViewSelectionAttachProperty.MonitorTreeViewSelection="True"
+                                v:MonitorTreeViewSelectionAttachProperty.TreeViewSelection="{Binding SelectedDirectoryTreeItem, Mode=TwoWay}"
+                                ItemsSource="{Binding DirectoryTreeItems}"
+                                >
                                 <TreeView.ItemContainerStyle>
                                     <!-- This Style binds a TreeViewItem to a TreeViewItemViewModel.  -->
                                     <Style TargetType="{x:Type TreeViewItem}">
@@ -105,7 +111,9 @@
                             Grid.Column="2"
                             Grid.Row="1">
                             <ListView>
-                                <GridView></GridView>
+                                <GridView>
+                                    
+                                </GridView>
                             </ListView>
                         </Border>
                     </Grid>

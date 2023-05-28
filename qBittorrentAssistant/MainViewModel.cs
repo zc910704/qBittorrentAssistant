@@ -25,6 +25,9 @@ namespace qBittorrentAssistant
         [ObservableProperty]
         private string _AddressColumnPath;
 
+        [ObservableProperty]
+        private DirectoryTreeItem _SelectedDirectoryTreeItem;
+
         public MainViewModel()
         {
             //var client = new QBittorrentClient(new Uri("http://localhost:8080/"));
@@ -76,11 +79,11 @@ namespace qBittorrentAssistant
                         if (currentDir.IsDirectory)
                         {
                             currentDir.IsExpanded = true;
-                            currentDir.IsSelected = true;
+                            //currentDir.IsSelected = true;
                             if (currentDir.Childrens.Any(d => d.Name == allDirectoryInPath[searchIndex]))
                             {
                                 currentDir = currentDir.Childrens.First(d => d.Name == allDirectoryInPath[searchIndex]);
-                                currentDir.IsSelected = true;
+                                //currentDir.IsSelected = true;
                                 searchIndex++;
                             }
                             else
@@ -95,6 +98,11 @@ namespace qBittorrentAssistant
             {
                 Logger.Error("MainViewModel::NavigateToPath |", ex);
             }
+            
+        }
+
+        partial void OnSelectedDirectoryTreeItemChanged(DirectoryTreeItem value)
+        {
             
         }
     }
