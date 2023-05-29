@@ -8,6 +8,7 @@ using System.Windows;
 
 namespace qBittorrentAssistant.Views
 {
+    [Obsolete("使用MonitorTreeViewSelectionAttachProperty替代", true)]
     // https://social.technet.microsoft.com/wiki/contents/articles/18188.wpf-treeview-selecteditem-twoway-mvvm-plus-expand-to-selected-and-close-all-others.aspx
     class TreeViewAttach
     {

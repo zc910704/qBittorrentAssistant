@@ -103,7 +103,7 @@ namespace qBittorrentAssistant
 
         partial void OnSelectedDirectoryTreeItemChanged(DirectoryTreeItem value)
         {
-            
+            AddressColumnPath = value.FullPath;
         }
     }
 }
