@@ -36,7 +36,8 @@ namespace qBittorrentAssistant.Models
 
         public BindingList<DirectoryTreeItem> DirectoryInCurrent { get; set; } = new BindingList<DirectoryTreeItem>();
 
-        public ByteSize Size { get; set; }
+        [ObservableProperty]
+        public ByteSize? _Size;
 
         public DirectoryTreeItem(string fullPath, string name)
         {

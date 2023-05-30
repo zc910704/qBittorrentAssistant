@@ -100,6 +100,45 @@ namespace qBittorrentAssistant
             }
             
         }
+        [RelayCommand]
+        private void CalculateSize()
+        {
+            ByteSize byteSize = ByteSize.FromBits(0);
+            var size = GetByteSize(SelectedDirectoryTreeItem);
+        }
+
+        private ByteSize GetByteSize(DirectoryTreeItem directoryTreeItem)
+        {
+            ByteSize byteSize = ByteSize.FromBits(0);
+
+            foreach (var item in directoryTreeItem.Childrens)
+            {
+                if (item.Size != null)
+                {
+                    byteSize += item.Size.Value;
+                }
+                else
+                {
+                    if (!item.IsDirectory)
+                    {
+                        
+                        FileInfo fileInfo = new FileInfo(item.FullPath);
+                        item.Size = ByteSize.FromBytes(fileInfo.Length);
+                        byteSize += item.Size.Value;
+                    }
+                    else
+                    {
+                        if (!item.IsExpanded)
+                            item.IsExpanded = true;
+                        item.Size = GetByteSize(item);
+                        byteSize += item.Size.Value;
+                    }
+                }
+            }
+            return byteSize;
+        }
+
+
 
         partial void OnSelectedDirectoryTreeItemChanged(DirectoryTreeItem value)
         {

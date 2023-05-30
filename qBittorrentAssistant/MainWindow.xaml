@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         x:Name="window"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="900" Width="1600">
     <!--设计时数据源 提供语法提示与设计视图-->
     <d:Window.DataContext>
         <local:MainViewModel></local:MainViewModel>
@@ -60,7 +60,7 @@
                     <!--目录树与当前目录内容-->
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="300"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
@@ -116,7 +116,7 @@
 
                                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="FileName" Width="300"/>
 
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Size}" Width="auto">
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Size}" Width="300">
                                             <GridViewColumnHeader>Size
                                                 <!--<GridViewColumnHeader.ContextMenu>
                                                     <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
@@ -156,7 +156,10 @@
                                 <TextBlock Text="{DynamicResource Password}" Margin="5"></TextBlock>
                                 <PasswordBox Margin="5" Width="100"></PasswordBox>
                                 <Button Margin="5" Content="{DynamicResource Login}" Padding="2"></Button>
-                                <Button Margin="5" Content="{DynamicResource CalculateSize}" Padding="2"></Button>
+                                <Button Margin="5" 
+                                        Content="{DynamicResource CalculateSize}" 
+                                        Padding="2" 
+                                        Command="{Binding CalculateSizeCommand}"></Button>
                             </StackPanel>
                         </Border>
                         <!--种子信息-->
