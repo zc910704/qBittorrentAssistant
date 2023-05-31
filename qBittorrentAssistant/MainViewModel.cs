@@ -28,12 +28,17 @@ namespace qBittorrentAssistant
         [ObservableProperty]
         private DirectoryTreeItem _SelectedDirectoryTreeItem;
 
+        [ObservableProperty]
+        private string _UserName;
+
+        [ObservableProperty]
+        private string _Password;
+
+        [ObservableProperty]
+        private BindingList<TorrentInfo> _Torrents = new BindingList<TorrentInfo>();
+
         public MainViewModel()
         {
-            //var client = new QBittorrentClient(new Uri("http://localhost:8080/"));
-            ////await client.LoginAsync("login", "password");
-            //var result = client.GetTorrentListAsync();
-            //var r = result.Result;
             GetDirectDataSource();
         }
 
@@ -100,6 +105,30 @@ namespace qBittorrentAssistant
             }
             
         }
+
+        [RelayCommand]
+        private async void LoginAndConnect()
+        {
+            try
+            {
+                var client = new QBittorrentClient(new Uri("http://localhost:8080/"));
+                if(!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password)) 
+                {
+                    await client.LoginAsync(UserName, Password);
+                }                
+                var result = client.GetTorrentListAsync();
+                foreach (var torrent in result.Result)
+                {
+                    Torrents.Add(torrent);
+                }
+            }
+            catch (Exception e)
+            { 
+                Logger.Error("MainViewModel::LoginAndConnect |Exception:", e);
+            }
+
+        }
+
         [RelayCommand]
         private void CalculateSize()
         {
@@ -120,16 +149,18 @@ namespace qBittorrentAssistant
                 else
                 {
                     if (!item.IsDirectory)
-                    {
-                        
+                    {                        
                         FileInfo fileInfo = new FileInfo(item.FullPath);
                         item.Size = ByteSize.FromBytes(fileInfo.Length);
                         byteSize += item.Size.Value;
                     }
                     else
                     {
+                        GetTorrentContainInfo(item);
                         if (!item.IsExpanded)
-                            item.IsExpanded = true;
+                        {
+                            item.IsExpanded = true;                            
+                        }                        
                         item.Size = GetByteSize(item);
                         byteSize += item.Size.Value;
                     }
@@ -143,6 +174,18 @@ namespace qBittorrentAssistant
         partial void OnSelectedDirectoryTreeItemChanged(DirectoryTreeItem value)
         {
             AddressColumnPath = value.FullPath;
+        }
+
+        private void GetTorrentContainInfo(DirectoryTreeItem directoryInfo)
+        {
+            foreach (TorrentInfo torrent in Torrents)
+            {
+                var fullpath = directoryInfo.FullPath.TrimEnd('/', '\\');
+                if (fullpath.Contains(torrent.SavePath))
+                {
+                    directoryInfo.IsContainByTorrent = true;
+                }
+            }
         }
     }
 }

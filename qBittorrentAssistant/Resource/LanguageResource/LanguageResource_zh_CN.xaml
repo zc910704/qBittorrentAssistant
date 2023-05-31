@@ -3,6 +3,6 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
     <s:String x:Key="UserName">用户名:</s:String>
     <s:String x:Key="Password">密码:</s:String>
-    <s:String x:Key="Login">登录</s:String>
+    <s:String x:Key="Login">连接QTorrent</s:String>
     <s:String x:Key="CalculateSize">计算大小</s:String>
 </ResourceDictionary>

@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:qBittorrentAssistant"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary x:Name="Language_zh" Source="/Resource/LanguageResource/LanguageResource_zh_CN.xaml"/>
+        <ResourceDictionary x:Name="Language_zh" Source="/Resource/LanguageResource/LanguageResource_zh_CN.xaml">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resource/Converter/Converter.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>        
     </Application.Resources>
 </Application>

@@ -48,6 +48,9 @@ namespace qBittorrentAssistant.Models
         [ObservableProperty]
         private bool _IsSelected;
 
+        [ObservableProperty]
+        private bool _IsContainByTorrent;
+
         private bool _IsExpand = false;
         public bool IsExpanded
         {

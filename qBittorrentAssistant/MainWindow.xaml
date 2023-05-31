@@ -112,11 +112,17 @@
                             Grid.Row="1">
                             <ListView  ItemsSource="{Binding SelectedDirectoryTreeItem.Childrens}">
                                 <ListView.View>
+                                    
                                     <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="directory info">
-
-                                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="FileName" Width="300"/>
-
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Size}" Width="300">
+                                        <GridViewColumn 
+                                            DisplayMemberBinding="{Binding IsContainByTorrent}" 
+                                            Header="Contain Torrent" 
+                                            Width="150"/>
+                                        <GridViewColumn 
+                                            DisplayMemberBinding="{Binding Name}" 
+                                            Header="FileName" 
+                                            Width="300"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Size}" Width="500">
                                             <GridViewColumnHeader>Size
                                                 <!--<GridViewColumnHeader.ContextMenu>
                                                     <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
@@ -126,8 +132,6 @@
                                                 </GridViewColumnHeader.ContextMenu>-->
                                             </GridViewColumnHeader>
                                         </GridViewColumn>
-
-                                        <!--<GridViewColumn DisplayMemberBinding="{Binding Path=EmployeeNumber}" Header="Employee No." Width="100"/>-->
                                     </GridView>
                                 </ListView.View>                               
                             </ListView>
@@ -152,11 +156,20 @@
                         <Border Grid.Row="0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{DynamicResource UserName}" Margin="5"></TextBlock>
-                                <TextBox Margin="5" Width="100"></TextBox>
+                                <TextBox Margin="5" 
+                                         Width="100"
+                                         Text="{Binding UserName}"></TextBox>
                                 <TextBlock Text="{DynamicResource Password}" Margin="5"></TextBlock>
-                                <PasswordBox Margin="5" Width="100"></PasswordBox>
-                                <Button Margin="5" Content="{DynamicResource Login}" Padding="2"></Button>
+                                <TextBox Margin="5" 
+                                             Width="100"
+                                             Text="{Binding Password}"></TextBox>
                                 <Button Margin="5" 
+                                        Content="{DynamicResource Login}"
+                                        Width="100"
+                                        Padding="2"
+                                        Command="{Binding LoginAndConnectCommand}"></Button>
+                                <Button Margin="5" 
+                                        Width="100"
                                         Content="{DynamicResource CalculateSize}" 
                                         Padding="2" 
                                         Command="{Binding CalculateSizeCommand}"></Button>
@@ -165,7 +178,33 @@
                         <!--种子信息-->
                         <Border
                             Grid.Row="1">
-                            <DataGrid></DataGrid>
+                            <ListView  ItemsSource="{Binding Torrents}">
+                                <ListView.View>
+                                    <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="torrent info">
+
+                                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="500"/>
+
+                                        <GridViewColumn DisplayMemberBinding="{Binding Size, Converter={StaticResource SizeConvert}}" Width="200">
+                                            <GridViewColumnHeader>Size
+                                                <!--<GridViewColumnHeader.ContextMenu>
+                                                    <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
+                                                        <MenuItem Header="Ascending" />
+                                                        <MenuItem Header="Descending" />
+                                                    </ContextMenu>
+                                                </GridViewColumnHeader.ContextMenu>-->
+                                            </GridViewColumnHeader>
+                                        </GridViewColumn>
+                                        <GridViewColumn 
+                                            DisplayMemberBinding="{Binding State}" 
+                                            Header="State" 
+                                            Width="100"/>
+                                        <GridViewColumn 
+                                            DisplayMemberBinding="{Binding ContentPath}" 
+                                            Header="ContentPath"                                            
+                                            Width="400"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </Border>
                     </Grid>
                 </Border>
