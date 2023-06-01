@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:qBittorrentAssistant"
         xmlns:localModel="clr-namespace:qBittorrentAssistant.Models"
-        xmlns:v="clr-namespace:qBittorrentAssistant.Views"
+        xmlns:a="clr-namespace:qBittorrentAssistant.Views.AttachProperty"
+        xmlns:b="clr-namespace:qBittorrentAssistant.Views.Behavior"
         mc:Ignorable="d"
         x:Name="window"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -67,10 +68,10 @@
                         <!--目录树-->
                         <Border
                             Grid.Column="0">
-                            <!--v:TreeViewAttach.TreeViewSelectedItem="{Binding SelectedDirectoryTreeItem, Mode=TwoWay}"-->
+                            <!--a:TreeViewAttach.TreeViewSelectedItem="{Binding SelectedDirectoryTreeItem, Mode=TwoWay}"-->
                             <TreeView 
-                                v:MonitorTreeViewSelectionAttachProperty.MonitorTreeViewSelection="True"
-                                v:MonitorTreeViewSelectionAttachProperty.TreeViewSelection="{Binding SelectedDirectoryTreeItem, Mode=TwoWay}"
+                                a:MonitorTreeViewSelectionAttachProperty.MonitorTreeViewSelection="True"
+                                a:MonitorTreeViewSelectionAttachProperty.TreeViewSelection="{Binding SelectedDirectoryTreeItem, Mode=TwoWay}"
                                 ItemsSource="{Binding DirectoryTreeItems}"
                                 >
                                 <TreeView.ItemContainerStyle>
@@ -110,7 +111,17 @@
                         <Border
                             Grid.Column="2"
                             Grid.Row="1">
-                            <ListView  ItemsSource="{Binding SelectedDirectoryTreeItem.Childrens}">
+                            <ListView  ItemsSource="{Binding SelectedDirectoryTreeItem.Childrens}"
+                                       SelectedItem="{Binding SelectedItemInCurrentDirectory, Mode=TwoWay}">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                                 <ListView.View>
                                     
                                     <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="directory info">
@@ -178,13 +189,27 @@
                         <!--种子信息-->
                         <Border
                             Grid.Row="1">
-                            <ListView  ItemsSource="{Binding Torrents}">
+                            <ListView  ItemsSource="{Binding Torrents}" SelectedItem="{Binding SelectedTorrent, Mode=TwoWay}">
+                                <i:Interaction.Behaviors>
+                                    <b:ScrollListViewToSelectedBehavior></b:ScrollListViewToSelectedBehavior>
+                                </i:Interaction.Behaviors>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                                 <ListView.View>
                                     <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="torrent info">
 
                                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="500"/>
 
-                                        <GridViewColumn DisplayMemberBinding="{Binding Size, Converter={StaticResource SizeConvert}}" Width="200">
+                                        <GridViewColumn 
+                                            DisplayMemberBinding="{Binding Size, Converter={StaticResource SizeConvert}}" 
+                                            Width="200">
                                             <GridViewColumnHeader>Size
                                                 <!--<GridViewColumnHeader.ContextMenu>
                                                     <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">

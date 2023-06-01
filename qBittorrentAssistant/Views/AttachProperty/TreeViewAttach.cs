@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace qBittorrentAssistant.Views
+namespace qBittorrentAssistant.Views.AttachProperty
 {
     [Obsolete("使用MonitorTreeViewSelectionAttachProperty替代", true)]
     // https://social.technet.microsoft.com/wiki/contents/articles/18188.wpf-treeview-selecteditem-twoway-mvvm-plus-expand-to-selected-and-close-all-others.aspx
@@ -14,7 +14,7 @@ namespace qBittorrentAssistant.Views
     {
         public static object GetTreeViewSelectedItem(DependencyObject obj)
         {
-            return (object)obj.GetValue(TreeViewSelectedItemProperty);
+            return obj.GetValue(TreeViewSelectedItemProperty);
         }
 
         public static void SetTreeViewSelectedItem(DependencyObject obj, object value)

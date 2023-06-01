@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace qBittorrentAssistant.Views
+namespace qBittorrentAssistant.Views.AttachProperty
 {
     // WPF 中如何将多选项目的 SelectedItems 属性绑定到 ViewModel
     // https://www.bilibili.com/video/BV1HM411k76b/?spm_id_from=333.999.0.0&vd_source=feb776f27e66ce92d09ca656a18a7d3f
@@ -15,7 +15,7 @@ namespace qBittorrentAssistant.Views
     {
         public static object GetMonitorTreeViewSelection(DependencyObject obj)
         {
-            return (object)obj.GetValue(MonitorTreeViewSelectionProperty);
+            return obj.GetValue(MonitorTreeViewSelectionProperty);
         }
 
         public static void SetMonitorTreeViewSelection(DependencyObject obj, object value)
@@ -26,7 +26,7 @@ namespace qBittorrentAssistant.Views
         // Using a DependencyProperty as the backing store for MonitorTreeViewSelection.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MonitorTreeViewSelectionProperty =
             DependencyProperty.RegisterAttached("MonitorTreeViewSelection",
-                typeof(object), 
+                typeof(object),
                 typeof(MonitorTreeViewSelectionAttachProperty),
                 new PropertyMetadata(0, MonitorTreeViewSelectionCallback));
 
@@ -42,7 +42,7 @@ namespace qBittorrentAssistant.Views
                     treeView.SelectedItemChanged += TreeView_SelectedItemChanged;
                 }
                 else
-                { 
+                {
                     treeView.SelectedItemChanged -= TreeView_SelectedItemChanged;
                 }
             }
@@ -57,7 +57,7 @@ namespace qBittorrentAssistant.Views
 
         public static object GetTreeViewSelection(DependencyObject obj)
         {
-            return (object)obj.GetValue(TreeViewSelectionProperty);
+            return obj.GetValue(TreeViewSelectionProperty);
         }
 
         public static void SetTreeViewSelection(DependencyObject obj, object value)

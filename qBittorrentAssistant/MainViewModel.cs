@@ -37,6 +37,12 @@ namespace qBittorrentAssistant
         [ObservableProperty]
         private BindingList<TorrentInfo> _Torrents = new BindingList<TorrentInfo>();
 
+        [ObservableProperty]
+        private TorrentInfo _SelectedTorrent;
+
+        [ObservableProperty]
+        private DirectoryTreeItem _SelectedItemInCurrentDirectory;
+
         public MainViewModel()
         {
             GetDirectDataSource();
@@ -181,9 +187,26 @@ namespace qBittorrentAssistant
             foreach (TorrentInfo torrent in Torrents)
             {
                 var fullpath = directoryInfo.FullPath.TrimEnd('/', '\\');
-                if (fullpath.Contains(torrent.SavePath))
+                if (torrent.ContentPath.Contains(fullpath))
                 {
                     directoryInfo.IsContainByTorrent = true;
+                }
+            }
+        }
+
+        partial void OnSelectedTorrentChanged(TorrentInfo value)
+        {
+            AddressColumnPath = value.ContentPath;
+            NavigateToPath();
+        }
+
+        partial void OnSelectedItemInCurrentDirectoryChanged(DirectoryTreeItem value)
+        {
+            foreach (TorrentInfo torrent in Torrents)
+            {
+                if (torrent.ContentPath.Contains(value.FullPath))
+                {
+                    SelectedTorrent = torrent;
                 }
             }
         }
