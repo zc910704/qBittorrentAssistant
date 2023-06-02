@@ -56,6 +56,35 @@ namespace qBittorrentAssistant
             }
         }
 
+        [RelayCommand]
+        public void SwitchLanguageToEnglish()
+        {            
+            var eng = "/Resource/LanguageResource/LanguageResource_en_US.xaml";
+            SwitchLanguage(eng);
+        }
+
+        [RelayCommand]
+        public void SwitchLanguageToChinese()
+        {
+            var chn = "/Resource/LanguageResource/LanguageResource_zh_CN.xaml";
+            SwitchLanguage(chn);
+        }
+
+        private void SwitchLanguage(string xamlSourceUri)
+        {
+            var resDict = Application.Current.Resources.MergedDictionaries;
+            foreach (var res in resDict)
+            {
+                if (res.Source != null && res.Source.OriginalString.Contains("LanguageResource"))
+                {
+                    resDict.Remove(res);
+                    res.Source = new Uri(xamlSourceUri, UriKind.RelativeOrAbsolute);
+                    resDict.Add(res);
+                    break;
+                }
+            }
+        }
+
 
         [RelayCommand]
         public void NavigateToPath()

@@ -17,19 +17,30 @@
     </d:Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        
+        <!--菜单-->
+        <Menu Grid.Row="0" 
+              Margin="2" 
+              Width="120"
+              HorizontalAlignment="Left"
+              Background="Transparent">
+            <MenuItem Header="{DynamicResource Language}">
+                <MenuItem Header="{DynamicResource Chinese}" Command="{Binding SwitchLanguageToChineseCommand}"></MenuItem>
+                <MenuItem Header="{DynamicResource English}" Command="{Binding SwitchLanguageToEnglishCommand}"></MenuItem>
+            </MenuItem>
+        </Menu>
         <!--地址栏-->
         <Border
             BorderBrush="Gray"
             BorderThickness="2"
             Background="Gray"
-            Grid.Row="0">
+            Grid.Row="1">
             <Grid
             x:Name="addressBar"            
-            Margin="0">
+            Margin="0">                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="100"></ColumnDefinition>
@@ -37,7 +48,7 @@
                 <TextBox
                     Grid.Column="0"
                     Margin="2"
-                    Text="{Binding AddressColumnPath}">                    
+                    Text="{Binding AddressColumnPath}">
                 </TextBox>
                 <Button
                     Grid.Column="1"
@@ -49,7 +60,7 @@
 
         <!--目录树与目录内容与种子信息-->
         <Border
-            Grid.Row="1">            
+            Grid.Row="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>

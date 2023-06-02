@@ -5,4 +5,7 @@
     <s:String x:Key="Password">密码:</s:String>
     <s:String x:Key="Login">连接QTorrent</s:String>
     <s:String x:Key="CalculateSize">计算大小</s:String>
+    <s:String x:Key="Language">语言</s:String>
+    <s:String x:Key="Chinese">中文</s:String>
+    <s:String x:Key="English">英文</s:String>
 </ResourceDictionary>
