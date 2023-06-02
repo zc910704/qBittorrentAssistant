@@ -85,6 +85,24 @@ namespace qBittorrentAssistant
             }
         }
 
+        [RelayCommand]
+        public void DeleteItem()
+        {
+            try
+            {
+                File.Delete(SelectedItemInCurrentDirectory.FullPath);
+            }
+            catch (UnauthorizedAccessException accessExp) 
+            {
+                MessageBox.Show(accessExp.Message);
+            }
+
+            catch(Exception e)             
+            {
+                Logger.Error("MainViewModel::DeleteItem |Exception ", e);
+            }
+        }
+
 
         [RelayCommand]
         public void NavigateToPath()
