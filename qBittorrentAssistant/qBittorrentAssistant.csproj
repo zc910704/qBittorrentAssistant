@@ -10,10 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Asset\Images\bt.png" />
     <None Remove="Asset\Images\Directorys.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Asset\Images\bt.png" />
     <Resource Include="Asset\Images\Directorys.png" />
   </ItemGroup>
 

@@ -7,6 +7,7 @@
         xmlns:localModel="clr-namespace:qBittorrentAssistant.Models"
         xmlns:a="clr-namespace:qBittorrentAssistant.Views.AttachProperty"
         xmlns:b="clr-namespace:qBittorrentAssistant.Views.Behavior"
+        xmlns:t="clr-namespace:qBittorrentAssistant.Resource.DataTemplate"
         mc:Ignorable="d"
         x:Name="window"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -138,7 +139,10 @@
                                     </ContextMenu>
                                 </ListView.ContextMenu>
                                 <ListView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ResourceKey=ListViewItemContainerStylePatientList}">
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Style.Setters>
+                                            <Setter Property="Height" Value="24"></Setter>
+                                        </Style.Setters>
                                         <Style.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter Property="FontWeight" Value="Bold" />
@@ -150,18 +154,28 @@
                                     
                                     <GridView 
                                         AllowsColumnReorder="true" 
-                                        ColumnHeaderContainerStyle="{StaticResource ResourceKey=ListViewHeaderPatientList}"
                                         ColumnHeaderToolTip="directory info">
-                                        <GridViewColumn 
-                                            DisplayMemberBinding="{Binding IsContainByTorrent}" 
-                                            Header="Contain Torrent" 
-                                            Width="150"/>
+                                        <GridViewColumn
+                                            Width="40">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image 
+                                                        Source="Asset/Images/bt.png" 
+                                                        Width="24" 
+                                                        Height="24" 
+                                                        Stretch="Fill" 
+                                                        Visibility="{Binding IsContainByTorrent, Converter={StaticResource visibleConvert}}"></Image>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
                                         <GridViewColumn 
                                             DisplayMemberBinding="{Binding Name}" 
                                             Header="FileName" 
-                                            Width="300"/>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Size}" Width="500">
-                                            <GridViewColumnHeader>Size
+                                            Width="600"/>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Size}">
+                                            <GridViewColumnHeader
+                                                Width="200"
+                                                >Size
                                                 <!--<GridViewColumnHeader.ContextMenu>
                                                     <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
                                                         <MenuItem Header="Ascending" />
@@ -221,7 +235,10 @@
                                     <b:ScrollListViewToSelectedBehavior></b:ScrollListViewToSelectedBehavior>
                                 </i:Interaction.Behaviors>
                                 <ListView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ResourceKey=ListViewItemContainerStylePatientList}">
+                                    <Style TargetType="{x:Type ListViewItem}">
+                                        <Style.Setters>
+                                            <Setter Property="Height" Value="24"></Setter>
+                                        </Style.Setters>
                                         <Style.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter Property="FontWeight" Value="Bold" />
@@ -232,9 +249,8 @@
                                 <ListView.View>
                                     <GridView 
                                         AllowsColumnReorder="true" 
-                                        ColumnHeaderContainerStyle="{StaticResource ResourceKey=ListViewHeaderPatientList}"
                                         ColumnHeaderToolTip="torrent info">
-
+                                        
                                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="500"/>
 
                                         <GridViewColumn 
@@ -255,7 +271,8 @@
                                             Width="100"/>
                                         <GridViewColumn 
                                             DisplayMemberBinding="{Binding ContentPath}" 
-                                            Header="ContentPath"                                            
+                                            Header="ContentPath"
+                                            
                                             Width="400"/>
                                     </GridView>
                                 </ListView.View>
