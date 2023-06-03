@@ -15,6 +15,9 @@
     <d:Window.DataContext>
         <local:MainViewModel></local:MainViewModel>
     </d:Window.DataContext>
+    <Window.Resources>
+        
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
@@ -135,7 +138,7 @@
                                     </ContextMenu>
                                 </ListView.ContextMenu>
                                 <ListView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListViewItem}">
+                                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ResourceKey=ListViewItemContainerStylePatientList}">
                                         <Style.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter Property="FontWeight" Value="Bold" />
@@ -145,7 +148,10 @@
                                 </ListView.ItemContainerStyle>
                                 <ListView.View>
                                     
-                                    <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="directory info">
+                                    <GridView 
+                                        AllowsColumnReorder="true" 
+                                        ColumnHeaderContainerStyle="{StaticResource ResourceKey=ListViewHeaderPatientList}"
+                                        ColumnHeaderToolTip="directory info">
                                         <GridViewColumn 
                                             DisplayMemberBinding="{Binding IsContainByTorrent}" 
                                             Header="Contain Torrent" 
@@ -215,7 +221,7 @@
                                     <b:ScrollListViewToSelectedBehavior></b:ScrollListViewToSelectedBehavior>
                                 </i:Interaction.Behaviors>
                                 <ListView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListViewItem}">
+                                    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource ResourceKey=ListViewItemContainerStylePatientList}">
                                         <Style.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter Property="FontWeight" Value="Bold" />
@@ -224,7 +230,10 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.View>
-                                    <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="torrent info">
+                                    <GridView 
+                                        AllowsColumnReorder="true" 
+                                        ColumnHeaderContainerStyle="{StaticResource ResourceKey=ListViewHeaderPatientList}"
+                                        ColumnHeaderToolTip="torrent info">
 
                                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="500"/>
 
@@ -232,12 +241,12 @@
                                             DisplayMemberBinding="{Binding Size, Converter={StaticResource SizeConvert}}" 
                                             Width="200">
                                             <GridViewColumnHeader>Size
-                                                <!--<GridViewColumnHeader.ContextMenu>
-                                                    <ContextMenu MenuItem.Click="LastNameCM_Click" Name="LastNameCM">
+                                                <GridViewColumnHeader.ContextMenu>
+                                                    <ContextMenu Name="LastNameCM">
                                                         <MenuItem Header="Ascending" />
                                                         <MenuItem Header="Descending" />
                                                     </ContextMenu>
-                                                </GridViewColumnHeader.ContextMenu>-->
+                                                </GridViewColumnHeader.ContextMenu>
                                             </GridViewColumnHeader>
                                         </GridViewColumn>
                                         <GridViewColumn 

@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary x:Name="Language_zh" Source="/Resource/LanguageResource/LanguageResource_zh_CN.xaml"></ResourceDictionary>
                 <ResourceDictionary x:Name="Language" Source="/Resource/Converter/Converter.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Resource/Style/ListViewStyle.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>        
     </Application.Resources>
