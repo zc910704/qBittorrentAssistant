@@ -12,21 +12,11 @@ namespace qBittorrentAssistant.Models
 {
     public static class TorrentHelper
     {
-        //private static Dictionary<TorrentInfo, IList<TorrentContent>> _TorrentDict = new Dictionary<TorrentInfo, IList<TorrentContent>>();
-
+        
         private static Dictionary<string, TorrentInfo> _ContentTorrentDict = new Dictionary<string, TorrentInfo>();
 
         public static void Add(TorrentInfo torrentInfo, TorrentContent torrentContent)
         {
-
-            //if (_TorrentDict.ContainsKey(torrentInfo))
-            //{
-            //    _TorrentDict.Add(torrentInfo, new List<TorrentContent>());
-            //}
-            //else
-            //{
-            //    _TorrentDict[torrentInfo].Add(torrentContent);
-            //}
 
             var path = Path.Combine(torrentInfo.SavePath, torrentContent.Name.Replace("/",@"\"));
 

@@ -28,4 +28,10 @@
     <PackageReference Include="QBittorrent.Client" Version="1.8.23016.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

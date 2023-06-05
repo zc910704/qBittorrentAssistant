@@ -78,7 +78,7 @@ namespace qBittorrentAssistant.Models
                         }
                         else
                         {
-                            Logger.Error("DirectoryTreeItem::SetIsExpanded |item.Count() <= FullPath.Count()", null);
+                            LogHelper.Error("DirectoryTreeItem::SetIsExpanded |item.Count() <= FullPath.Count()", null);
                         }
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Serialization;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,29 @@ using System.Threading.Tasks;
 
 namespace qBittorrentAssistant
 {
-    public static class Logger
+    public static class LogHelper
     {
-        public static void Error(string msg, Exception? exception) { }
+        private static Logger _Logger = null;
 
-        public static void Info(string msg) { }
+        static LogHelper()
+        {
+            InitLog();
+        }
+
+        public static void InitLog()
+        {
+            _Logger = LogManager.GetCurrentClassLogger();
+        }
+
+        public static void Info(string info) => _Logger.Info(info);
+
+        public static void Debug(string info) => _Logger.Debug(info);
+
+        public static void Error(string msg, Exception e) => _Logger.Error(e, msg);
+
+        public static void Close()
+        {
+
+        }
     }
 }

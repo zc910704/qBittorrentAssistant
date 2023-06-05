@@ -101,7 +101,7 @@ namespace qBittorrentAssistant
 
             catch(Exception e)             
             {
-                Logger.Error("MainViewModel::DeleteItem |Exception ", e);
+                LogHelper.Error("MainViewModel::DeleteItem |Exception ", e);
             }
         }
 
@@ -156,7 +156,7 @@ namespace qBittorrentAssistant
             }
             catch (Exception ex)
             {
-                Logger.Error("MainViewModel::NavigateToPath |", ex);
+                LogHelper.Error("MainViewModel::NavigateToPath |", ex);
             }
             
         }
@@ -184,7 +184,7 @@ namespace qBittorrentAssistant
             }
             catch (Exception e)
             { 
-                Logger.Error("MainViewModel::LoginAndConnect |Exception:", e);
+                LogHelper.Error("MainViewModel::LoginAndConnect |Exception:", e);
             }
 
         }
