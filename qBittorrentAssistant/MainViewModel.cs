@@ -14,6 +14,7 @@ using CommunityToolkit.Mvvm.Input;
 using ByteSizeLib;
 using NLog.LayoutRenderers;
 using System.Security.Policy;
+using System.Windows.Threading;
 
 namespace qBittorrentAssistant
 {
@@ -147,7 +148,7 @@ namespace qBittorrentAssistant
                                 searchIndex++;
                             }
                             else
-                            {
+                            { 
                                 break;
                             }
                         }
@@ -190,17 +191,16 @@ namespace qBittorrentAssistant
         }
 
         [RelayCommand]
-        private void CalculateSize()
+        private async Task CalculateSize()
         {
-            ByteSize byteSize = ByteSize.FromBits(0);
-            var size = GetByteSize(SelectedDirectoryTreeItem);
-            foreach(var directoryTreeItem in SelectedDirectoryTreeItem.Childrens) 
+            _ = await GetByteSize(SelectedDirectoryTreeItem);
+            foreach (var directoryTreeItem in SelectedDirectoryTreeItem.Childrens)
             {
                 directoryTreeItem.IsContainByTorrent = TorrentHelper.IsContainAnyTorrent(directoryTreeItem.FullPath);
             }
         }
 
-        private ByteSize GetByteSize(DirectoryTreeItem directoryTreeItem)
+        private async Task<ByteSize> GetByteSize(DirectoryTreeItem directoryTreeItem)
         {
             ByteSize byteSize = ByteSize.FromBits(0);
 
@@ -222,9 +222,11 @@ namespace qBittorrentAssistant
                     {                        
                         if (!item.IsExpanded)
                         {
+                            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                             item.IsExpanded = true;                            
                         }                        
-                        item.Size = GetByteSize(item);
+                        item.Size = await GetByteSize(item);
+                        await Task.Delay(0);
                         byteSize += item.Size.Value;
                     }
                 }

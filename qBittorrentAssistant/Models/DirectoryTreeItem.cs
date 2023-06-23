@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -57,33 +58,60 @@ namespace qBittorrentAssistant.Models
             get => _IsExpand;
             set
             {
-                // first expand
-                if (!_IsExpand && value && IsDirectory)
+                try
                 {
-                    foreach (var item in Directory.GetFileSystemEntries(FullPath))
+                    // first expand
+                    if (!_IsExpand && value && IsDirectory)
                     {
-                        if (item.Count() > FullPath.Count())
+                        foreach (var item in GetEntity(FullPath))
                         {
-                            var name = item.Split(new char[] { '\\', '/' }).Last();
-                            var itemInFullPath = new DirectoryTreeItem(item, name);
-                            if (itemInFullPath.IsDirectory)
+                            if (item.Count() > FullPath.Count())
                             {
-                                DirectoryInCurrent.Add(itemInFullPath);
+                                var name = item.Split(new char[] { '\\', '/' }).Last();
+                                var itemInFullPath = new DirectoryTreeItem(item, name);
+                                if (itemInFullPath.IsDirectory)
+                                {
+                                    DirectoryInCurrent.Add(itemInFullPath);
+                                }
+                                else
+                                {
+                                    FilesInCurrent.Add(itemInFullPath);
+                                }
+                                Childrens.Add(itemInFullPath);
                             }
                             else
                             {
-                                FilesInCurrent.Add(itemInFullPath);
+                                LogHelper.Error("DirectoryTreeItem::SetIsExpanded |item.Count() <= FullPath.Count()", null);
                             }
-                            Childrens.Add(itemInFullPath);
-                        }
-                        else
-                        {
-                            LogHelper.Error("DirectoryTreeItem::SetIsExpanded |item.Count() <= FullPath.Count()", null);
                         }
                     }
+                    _IsExpand = value;
+                    OnPropertyChanged(nameof(IsExpanded));
                 }
-                _IsExpand = value;
+
+                catch (Exception e)
+                {
+
+                }
             }
+        }
+
+        [DebuggerHidden]
+        private string[] GetEntity(string path)
+        {
+            try
+            {
+                return Directory.GetFileSystemEntries(path);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            return new string[] { };
         }
 
         public static IEnumerable<DirectoryTreeItem> GetRootDirectoryItems()
